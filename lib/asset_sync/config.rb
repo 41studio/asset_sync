@@ -108,6 +108,10 @@ module AssetSync
     def yml_exists?
       defined?(Rails.root) ? File.exists?(self.yml_path) : false
     end
+    
+    def path_style?
+      fog_directory.include?('.')
+    end
 
     def yml
       begin
@@ -176,6 +180,7 @@ module AssetSync
         options.merge!({
           :aws_access_key_id => aws_access_key_id,
           :aws_secret_access_key => aws_secret_access_key
+          :path_style => path_style?
         })
       elsif rackspace?
         options.merge!({
